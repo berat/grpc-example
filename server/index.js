@@ -36,6 +36,16 @@ const getServer = function () {
   return server;
 };
 
+app.get("/", function(req, res){
+  client.findById({}, function (err, result) {
+    if (err) {
+      console.log(error);
+      res.send({ err });
+    }
+    res.send(result);
+  });
+})
+
 app.get("/getUser", function (req, res) {
   client.findById({}, function (err, result) {
     if (err) {
