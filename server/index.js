@@ -37,16 +37,12 @@ const getServer = function () {
 };
 
 app.get("/getUser", function (req, res) {
-  console.log(client);
-  User.findOne().then(function (user) {
-    if (!user) {
-      res.send({ status: false, message: "boyle mail yok" });
-    } else {
-      client.findById({}, function (err, result) {
-        console.log(err, result)
-        res.json(user);
-      });
+  client.findById({}, function (err, result) {
+    if (err) {
+      console.log(error);
+      res.send({ err });
     }
+    res.send(result);
   });
 });
 
