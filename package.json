@@ -5,17 +5,20 @@
   "main": "index.js",
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "google-protobuf": "^3.14.0",
     "grpc": "^1.18.0",
-    "uuid": "^3.3.2",
-    "body-parser": "^1.18.3",
+    "grpc-web": "^1.2.1",
     "mongoose": "^5.6.7",
-    "express": "^4.16.4"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
   },
   "scripts": {
-    "server": "nodemon server/index.js"
+    "server": "nodemon server/index.js",
+    "build": "protoc --js_out=import_style=commonjs,binary:. users.proto"
   },
   "repository": {
     "type": "git",

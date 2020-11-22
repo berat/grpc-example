@@ -6,7 +6,8 @@ function findById(call, callback) {
     if (!user) {
       res.send({ status: false, message: "boyle mail yok" });
     } else {
-      return callback(null, user);
+      console.log(user)
+      return callback(null, {email: user.email, password: user.password});
     }
   });
 }
