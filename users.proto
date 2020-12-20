@@ -4,11 +4,14 @@ package usersProto;
 // service definition
 
 service UsersService {
-  rpc findById (Empty) returns (Users) {};
+  rpc allUser (Empty) returns (AllUser) {};
 }
 
+message AllUser {
+  repeated User user = 1;
+}
 
-message Users {
+message User {
   string id = 1;
   string email = 2;
   string password = 3;

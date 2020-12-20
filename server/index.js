@@ -1,11 +1,11 @@
 const grpc = require("grpc");
 const UsersInterface = require("./usersInterface")();
-const UsersService = require("./usersService");
-const protoLoader = require("@grpc/proto-loader");
+const UsersService = require("./services/usersService");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const User = require("./models/User");
+const AuthRouter = require("./routes/auth.routes.js");
 
 mongoose.connect(
   "mongodb+srv://root:root@cluster0-qwfpm.mongodb.net/test?retryWrites=true&w=majority",
@@ -15,15 +15,6 @@ mongoose.connect(
   }
 );
 
-const PROTO_FILE = `${__dirname}/../users.proto`;
-
-const packageDefinition = protoLoader.loadSync(PROTO_FILE);
-const protoDescriptor = grpc.loadPackageDefinition(packageDefinition)
-  .usersProto;
-const client = new protoDescriptor.UsersService(
-  "localhost:8080",
-  grpc.credentials.createInsecure()
-);
 
 const PORT = process.env.PORT || "8080";
 const app = express();
@@ -37,29 +28,15 @@ const getServer = function () {
 };
 
 app.get("/", function(req, res){
-  client.findById({}, function (err, result) {
-    if (err) {
-      console.log(error);
-      res.send({ err });
-    }
-    res.send(result);
-  });
+    res.send({msg: "Let's play"});
 })
 
-app.get("/getUser", function (req, res) {
-  client.findById({}, function (err, result) {
-    if (err) {
-      console.log(error);
-      res.send({ err });
-    }
-    res.send(result);
-  });
-});
+app.use(AuthRouter.routePrefix, AuthRouter.route())
 
 const booksServer = getServer();
 booksServer.bind(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure());
 booksServer.start();
 // console.log(`Server running on port ${PORT}`);
 app.listen(3000, function () {
-  console.log("Server listing on port 3000");
+  console.log("Server listing on port " + PORT);
 });
