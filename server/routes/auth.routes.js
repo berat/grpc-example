@@ -17,26 +17,17 @@ function route() {
     });
   });
 
-  // router.route('/giris-yap').post((req, res) => {
+  router.route("/giris-yap").post((req, res) => {
+    const { email, password } = req.body;
 
-  //   const { email, password } = req.body;
-
-  //   User.findOne({ email: email }).then((user) => {
-  //     if (!user) {
-  //       res.send({ status: false, message: 'boyle mail yok' })
-  //     }
-  //     else {
-  //       if (user.password === crypto.createHmac('sha256', config.jwtSecret).update(password).digest('hex')) {
-  //         const token = jwt.sign({ userid: user._id }, config.jwtSecret);
-  //         res.send({ status: true, token: token })
-  //       }
-  //       else {
-  //         res.send({ status: false, message: 'hatali sifre' })
-  //       }
-  //     }
-  //     res.send("ok");
-  //   })
-  // })
+    USERclient.login({email, password}, function (err, result) {
+      if (err) {
+        console.log(error);
+        res.send({ err });
+      }
+      res.send(result);
+    });
+  });
 
   // router.route('/kontrol').post((req, res) => {
   //   const { username } = req.body;

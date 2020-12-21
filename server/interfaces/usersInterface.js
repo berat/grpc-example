@@ -1,7 +1,7 @@
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
 
-const PROTO_FILE = `${__dirname}/../users.proto`;
+const PROTO_FILE = `${__dirname}/../../users.proto`;
 
 const getInterface = () => {
   const packageDefinition = protoLoader.loadSync(PROTO_FILE);

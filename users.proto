@@ -5,10 +5,18 @@ package usersProto;
 
 service UsersService {
   rpc allUser (Empty) returns (AllUser) {};
+  rpc login (User) returns (Token) {};
+}
+
+message Token {
+  string token = 1;
+  bool status = 2;
 }
 
 message AllUser {
   repeated User user = 1;
+  string message = 2;
+  bool status = 3 ;
 }
 
 message User {

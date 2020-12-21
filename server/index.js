@@ -1,10 +1,9 @@
 const grpc = require("grpc");
-const UsersInterface = require("./usersInterface")();
+const UsersInterface = require("./interfaces/usersInterface")();
 const UsersService = require("./services/usersService");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const User = require("./models/User");
 const AuthRouter = require("./routes/auth.routes.js");
 
 mongoose.connect(
@@ -14,7 +13,6 @@ mongoose.connect(
     return console.log(err ? err : "Mongo connected.");
   }
 );
-
 
 const PORT = process.env.PORT || "8080";
 const app = express();
@@ -27,11 +25,11 @@ const getServer = function () {
   return server;
 };
 
-app.get("/", function(req, res){
-    res.send({msg: "Let's play"});
-})
+app.get("/", function (req, res) {
+  res.send({ msg: "Let's play" });
+});
 
-app.use(AuthRouter.routePrefix, AuthRouter.route())
+app.use(AuthRouter.routePrefix, AuthRouter.route());
 
 const booksServer = getServer();
 booksServer.bind(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure());
