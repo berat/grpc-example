@@ -1,10 +1,14 @@
 syntax = "proto3";
 package usersProto;
 
+import "google/api/annotations.proto";
+
 // service definition
 
 service UsersService {
-  rpc allUser (Empty) returns (AllUser) {};
+  rpc allUser (Empty) returns (AllUser) { option (google.api.http) = {
+      get: "/v1/allUser"
+    };};
   rpc login (User) returns (Token) {};
 }
 

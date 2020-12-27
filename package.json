@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@grpc/grpc-js": "^1.2.2",
     "@grpc/proto-loader": "^0.3.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
     "express": "^4.16.4",
@@ -13,6 +15,7 @@
     "grpc-web": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.7",
+    "protoc-gen-grpc-web": "^1.2.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

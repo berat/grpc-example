@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 function allUser(call, callback) {
+  console.log("deneme")
   User.find().then(function (user) {
     if (!user) {
       return callback(null, { status: false, message: "boyle mail yok" });
@@ -13,7 +14,10 @@ function allUser(call, callback) {
   });
 }
 
+
+
 function login({ request: { email, password } }, callback) {
+  console.log("deneme")
   User.findOne({ email: email }).then(function (user) {
     if (!user) {
       return callback(null, { status: false, message: "boyle mail yok" });
