@@ -21,6 +21,7 @@ var packageDefinition = protoLoader.loadSync(
 var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 var echo = protoDescriptor.usersProto.UsersService.service;
 
+
 function getServer() {
   let server = new grpc.Server();
   server.addService(UsersInterface, {

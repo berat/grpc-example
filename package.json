@@ -17,13 +17,30 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.7",
     "protoc-gen-grpc-web": "^1.2.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "@devhammed/use-cookie": "^1.0.3",
+    "bootstrap": "^4.3.1",
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "http2": "^3.3.7",
+    "js-cookie": "^2.2.1",
+    "jwt-decode": "^2.2.0",
+    "pagination-react-hooks": "^1.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-github-btn": "^1.0.5",
+    "react-hooks-paginator": "^0.3.0",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
   },
   "scripts": {
     "server": "nodemon server/index.js",
+    "client": "react-scripts start",
     "build": "protoc --js_out=import_style=commonjs,binary:. users.proto"
   },
   "repository": {
