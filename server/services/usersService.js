@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 function allUser(call, callback) {
-  console.log("deneme")
   User.find().then(function (user) {
     if (!user) {
       return callback(null, { status: false, message: "boyle mail yok" });
@@ -14,10 +13,7 @@ function allUser(call, callback) {
   });
 }
 
-
-
 function login({ request: { email, password } }, callback) {
-  console.log("deneme")
   User.findOne({ email: email }).then(function (user) {
     if (!user) {
       return callback(null, { status: false, message: "boyle mail yok" });
@@ -38,7 +34,48 @@ function login({ request: { email, password } }, callback) {
   });
 }
 
+function register({ request: { email, username, password } }, callback) {
+  const passwordHashed = crypto
+    .createHmac("sha256", config.jwtSecret)
+    .update(password)
+    .digest("hex");
+  const newUser = new User({
+    nickName: username,
+    email: email,
+    password: passwordHashed,
+    date: new Date(),
+  });
+
+  newUser.validate((err, asd) => {
+    console.log("err", err);
+    console.log("asd", asd);
+  });
+  const find = async (email) => await User.findOne({ email: email });
+  find(email)
+    .then((user) => {
+      if (user === null) {
+        const findUsername = async (username) =>
+          await User.findOne({ nickName: username });
+        findUsername(username).then((user) => {
+          if (user === null) {
+            newUser.save().then((data) => {
+              callback(null, { status: true, user: data });
+            });
+          } else {
+            callback(null, { status: false, msg: "Username already exists" });
+          }
+        });
+      } else {
+        callback(null, { status: false, msg: "E-mai already exists" });
+        res.send({ status: false, msg: "E-mai already exists" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 module.exports = {
   allUser,
   login,
+  register,
 };

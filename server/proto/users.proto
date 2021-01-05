@@ -1,0 +1,57 @@
+syntax = "proto3";
+package usersProto;
+
+
+// service definition
+
+service UsersService {
+  rpc allUser (Empty) returns (AllUser) {};
+  rpc login (User) returns (Token) {};
+  rpc register (User) returns (RegisterResponse) {};
+  rpc share (Post) returns (PostResponse) {};
+  rpc remove (Post) returns (PostResponse) {};
+  rpc post (Empty) returns (AllPost) {};
+}
+
+message Token {
+  string token = 1;
+  bool status = 2;
+}
+
+message PostResponse {
+  bool status = 1;
+  repeated Post post = 2;
+}
+
+message RegisterResponse {
+  bool status = 1;
+  string message = 2;
+  repeated User user = 3;
+} 
+
+message AllPost {
+  repeated Post post = 1;
+  bool status = 2;
+}
+
+message AllUser {
+  repeated User user = 1;
+  string message = 2;
+  bool status = 3 ;
+}
+
+message User {
+  string id = 1;
+  string email = 2;
+  string password = 3;
+  string username = 4;
+}
+
+message Post {
+  string user_id = 1;
+  string post = 2;
+  string who = 3;
+  string date = 4;
+}
+
+message Empty {}

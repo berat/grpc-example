@@ -10,9 +10,25 @@ function main() {
 
   let emptyFile = new messages.Empty();
 
-  client.allUser(emptyFile, {}, function(err, res){
-    console.log(res, err)
+  let message = new messages.User();
+
+  const request = new messages.User();
+  request.setId(4);
+  request.setEmail("deneme@deneme.com");
+  request.setPassword("deneme");
+
+  // client.allUser(emptyFile, {}, function(err, res){
+  //   console.log(res)
+  // });
+
+  client.login(request, {}, function (err, response) {
+    if (response == null) {
+      console.log(err);
+    } else {
+      console.log(response.array);
+    }
   });
 }
-
 main();
+
+

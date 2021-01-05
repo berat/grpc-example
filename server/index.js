@@ -1,47 +1,44 @@
-const grpc = require("grpc");
+// const grpc = require("grpc");
 const UsersInterface = require("./interfaces/usersInterface")();
 const UsersService = require("./services/usersService");
-const mongoose = require("mongoose");
+const ContentService = require("./services/contentService");
+
+var PROTO_PATH = __dirname + '/proto/users.proto';
+
+var assert = require('assert');
+var async = require('async');
+var _ = require('lodash');
+var grpc = require('@grpc/grpc-js');
+var protoLoader = require('@grpc/proto-loader');
+var packageDefinition = protoLoader.loadSync(
+    PROTO_PATH,
+    {keepCase: true,
+     longs: String,
+     enums: String,
+     defaults: true,
+     oneofs: true
+    });
+var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
+var echo = protoDescriptor.usersProto.UsersService.service;
 
 function getServer() {
-  var server = new grpc.Server();
-  server.addService(UsersInterface, {
-    allUser: UsersService.allUser,
-    login: UsersService.login,
-  });
-  return server;
-}
-
-async function connectDB() {
-  try {
-    await mongoose.connect(
-      "mongodb+srv://root:root@cluster0-qwfpm.mongodb.net/test?retryWrites=true&w=majority",
-      { useNewUrlParser: true },
-      function (err) {
-        return console.log(err ? err : "Mongo connected.");
-      }
-    );
-
-    // api = new API(db, grpc);
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function main() {
-  await connectDB().catch(console.dir);
-  
   let server = new grpc.Server();
   server.addService(UsersInterface, {
     allUser: UsersService.allUser,
     login: UsersService.login,
+    register: UsersService.register,
+    share: ContentService.share,
+    remove: ContentService.remove,
+    allPost: ContentService.allPost
   });
-  // server.addService(UsersInterface, UsersService);
-  let address = "localhost:8080";
-  server.bindAsync(address, grpc.ServerCredentials.createInsecure(), () => {
-    server.start();
-    console.log("Server running at " + address);
-  });
+  return server;
 }
 
-main();
+if (require.main === module) {
+  var echoServer = getServer();
+  echoServer.bindAsync(
+    'localhost:9090', grpc.ServerCredentials.createInsecure(), (err, port) => {
+      assert.ifError(err);
+      echoServer.start();
+  });
+}
